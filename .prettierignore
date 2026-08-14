@@ -1,0 +1,13 @@
+node_modules
+.pnpm-store
+.next
+dist
+coverage
+.turbo
+*.tsbuildinfo
+*.db
+*.db-journal
+pnpm-lock.yaml
+hunter-dashboard-journey-v7.2
+hunter-dashboard-backend-v7.1
+premium-ui-v2

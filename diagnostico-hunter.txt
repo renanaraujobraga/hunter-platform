@@ -1,0 +1,161 @@
+﻿=== RAIZ ===
+.turbo
+apps
+docs
+flight-web-backup
+flight-web-backup-premium-v1
+node_modules
+premium-ui-v2
+scripts
+.gitignore
+.prettierrc.json
+hunter-platform-premium-ui-v1.ps1
+INSTALAR.cmd
+LEIA-ME.txt
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+README.md
+turbo.json
+
+=== APPS ===
+flight-api
+flight-web
+
+=== PACKAGE.JSON RAIZ ===
+{
+  "name": "@hunter/platform",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "prettier --write .",
+    "db:generate": "pnpm --filter @hunter/flight-api db:generate",
+    "db:migrate": "pnpm --filter @hunter/flight-api db:migrate",
+    "db:seed": "pnpm --filter @hunter/flight-api db:seed",
+    "setup": "node scripts/setup.mjs"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "turbo": "2.5.6",
+    "typescript": "5.9.2",
+    "execa": "9.6.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma"
+    ]
+  }
+}
+
+=== FLIGHT-WEB ===
+.next
+app
+components
+lib
+node_modules
+.env.example
+.env.local
+next-env.d.ts
+package.json
+tsconfig.json
+
+=== PACKAGE.JSON WEB ===
+{
+  "name": "@hunter/flight-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "next": "15.5.2",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.0",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "typescript": "5.9.2"
+  }
+}
+
+=== FLIGHT-API ===
+.turbo
+dist
+node_modules
+prisma
+src
+.env
+.env.example
+eslint.config.mjs
+nest-cli.json
+package.json
+tsconfig.build.json
+tsconfig.json
+
+=== PACKAGE.JSON API ===
+{
+  "name": "@hunter/flight-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "prisma generate && nest build",
+    "start": "node dist/main.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "jest --runInBand",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.1.6",
+    "@nestjs/config": "4.0.2",
+    "@nestjs/core": "11.1.6",
+    "@nestjs/jwt": "11.0.0",
+    "@nestjs/passport": "11.0.5",
+    "@nestjs/platform-express": "11.1.6",
+    "@nestjs/swagger": "11.2.0",
+    "@prisma/client": "6.15.0",
+    "bcryptjs": "3.0.2",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2",
+    "passport": "0.7.0",
+    "passport-jwt": "4.0.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "11.0.10",
+    "@nestjs/schematics": "11.0.7",
+    "@nestjs/testing": "11.1.6",
+    "@types/jest": "30.0.0",
+    "@types/node": "24.3.0",
+    "@types/passport-jwt": "4.0.1",
+    "eslint": "9.34.0",
+    "jest": "30.1.1",
+    "prisma": "6.15.0",
+    "source-map-support": "0.5.21",
+    "ts-jest": "29.4.1",
+    "ts-node": "10.9.2",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
+    "@eslint/js": "9.34.0",
+    "typescript-eslint": "8.41.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

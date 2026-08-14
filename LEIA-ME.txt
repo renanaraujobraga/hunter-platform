@@ -1,0 +1,20 @@
+HUNTER PLATFORM — PREMIUM UI V4
+
+NOVIDADES
+- Botão "Criar novo Hunter" agora funciona.
+- Modal completo com rota, período e preço máximo.
+- Criação integrada ao POST /api/hunters.
+- Dashboard atualiza automaticamente após a criação.
+- Feedback de sucesso, validação, erros de API e skeleton de carregamento.
+- Nenhuma alteração no backend.
+
+INSTALAÇÃO
+1. Pare o pnpm dev com Ctrl+C.
+2. Extraia este ZIP em uma pasta temporária.
+3. Substitua somente a pasta apps/flight-web do projeto.
+4. Na raiz C:\hunter-platform-clean execute:
+   pnpm install
+   pnpm dev
+5. Abra http://localhost:3000
+
+API esperada: http://localhost:3333/api

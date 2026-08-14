@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum HunterStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum AlertSeverity {
+  INFO
+  GOOD_DEAL
+  PROMOTION
+  BUY_NOW
+  RARE
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(USER)
+  hunters      Hunter[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Hunter {
+  id            String       @id @default(cuid())
+  name          String
+  origin        String
+  destination   String
+  departureFrom DateTime
+  departureTo   DateTime
+  returnFrom    DateTime?
+  returnTo      DateTime?
+  maxPrice      Float?
+  currentPrice  Float?
+  previousPrice Float?
+  score         Int          @default(0)
+  confidence    Int          @default(0)
+  status        HunterStatus @default(ACTIVE)
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  alerts        Alert[]
+  priceRecords  PriceRecord[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([userId, status])
+  @@index([origin, destination])
+}
+
+model Alert {
+  id        String        @id @default(cuid())
+  title     String
+  message   String
+  severity  AlertSeverity @default(INFO)
+  isRead    Boolean       @default(false)
+  hunterId  String
+  hunter    Hunter        @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@index([hunterId, createdAt])
+  @@index([isRead])
+}
+
+model PriceRecord {
+  id         String   @id @default(cuid())
+  price      Float
+  currency   String   @default("BRL")
+  source     String
+  capturedAt DateTime @default(now())
+  hunterId   String
+  hunter     Hunter   @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, capturedAt])
+}
+

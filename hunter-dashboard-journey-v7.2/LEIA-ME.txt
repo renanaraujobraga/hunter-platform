@@ -1,0 +1,22 @@
+HUNTER AI — DASHBOARD JOURNEY V7.2
+
+Esta atualização conecta toda a página inicial Premium V6 ao endpoint real GET /api/dashboard.
+Ela não altera o banco e não exige migration ou seed.
+
+INSTALAÇÃO
+1. Pare o projeto com Ctrl+C.
+2. Extraia este ZIP em uma pasta qualquer.
+3. Dentro da pasta extraída, execute:
+
+powershell -ExecutionPolicy Bypass -File .\APLICAR-DASHBOARD-V7.2.ps1
+
+4. Depois execute:
+
+cd C:\hunter-platform-clean
+pnpm dev
+
+5. Abra:
+Frontend: http://localhost:3000
+API: http://localhost:3333/api/dashboard
+
+O instalador cria backup e executa o build do backend e do frontend antes de concluir.

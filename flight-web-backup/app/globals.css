@@ -1,0 +1,13 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.card { background: white; border: 1px solid #e5e9f2; border-radius: 16px; padding: 20px; }
+.metric { font-size: 28px; font-weight: 700; margin-top: 8px; }
+.muted { color: #687086; }
