@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 20
 
     env:
-      DATABASE_URL: file:./ci.db
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/hunter_ci?schema=public
       JWT_SECRET: hunter-ci-secret-at-least-32-characters-long
       JWT_EXPIRES_IN: 1d
       NODE_ENV: test
