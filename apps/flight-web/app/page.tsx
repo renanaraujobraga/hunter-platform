@@ -1,10 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ArrowRight, Plane, ShieldCheck, TrendingDown } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
 import { HunterStatus } from "@/components/dashboard/HunterStatus";
 import { AnimatedNumber, Badge, PremiumLink, StatCard, Surface } from "@/components/design-system/ui";
-import { getDashboard } from "@/lib/dashboard-api";
+import { DashboardResponse, getDashboard } from "@/lib/dashboard-api";
 
 const iconMap = {
   plane: Plane,
@@ -20,8 +24,74 @@ const currency = new Intl.NumberFormat("pt-BR", {
 
 const integer = new Intl.NumberFormat("pt-BR");
 
-export default async function HomePage() {
-  const dashboard = await getDashboard();
+export default function HomePage() {
+  const router = useRouter();
+  const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    const token = localStorage.getItem("hunter_token");
+
+    if (!token) {
+      router.replace("/login");
+      return () => {
+        active = false;
+      };
+    }
+
+    getDashboard()
+      .then((data) => {
+        if (active) setDashboard(data);
+      })
+      .catch((err: unknown) => {
+        if (!active) return;
+
+        const message = err instanceof Error ? err.message : "Falha ao carregar o dashboard";
+        if (message.includes("401")) {
+          localStorage.removeItem("hunter_token");
+          localStorage.removeItem("hunter_user");
+          router.replace("/login");
+          return;
+        }
+
+        setError(message);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [router]);
+
+  if (!dashboard) {
+    return (
+      <AppLayout>
+        <div className="mx-auto flex min-h-[65vh] max-w-[1500px] items-center justify-center">
+          <Surface className="w-full max-w-lg p-8 text-center">
+            {error ? (
+              <>
+                <p className="text-lg font-bold text-[#101a3a]">Não foi possível carregar o dashboard</p>
+                <p className="mt-2 text-sm text-[#75819c]">{error}</p>
+                <button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                  className="mt-6 rounded-2xl bg-[#101a3a] px-5 py-3 text-sm font-bold text-white"
+                >
+                  Tentar novamente
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-lg font-bold text-[#101a3a]">Carregando seu Hunter AI...</p>
+                <p className="mt-2 text-sm text-[#75819c]">Buscando seus Hunters, alertas e oportunidades.</p>
+              </>
+            )}
+          </Surface>
+        </div>
+      </AppLayout>
+    );
+  }
+
   const { briefing, metrics, annualGoal, intelligenceFeed, monitoredTrips } = dashboard;
 
   return (
